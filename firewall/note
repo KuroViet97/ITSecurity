@@ -1,5 +1,42 @@
 sudo service network-manager stop
 sudo if config enpost25 192.168.10.x 
 sudo route add default gw <ip> enp0st25
-
+route add -net <centernetworkip> netmask 255.255.255.0 <networkinterface> enp0st25
+//set connection btw 2 machine
+ifconfig <interfacethatisnotused> <ip> netmask <netmask>
+//ip forwarding
+sysctl -w net.ipv4.ip_forward=1 (router machine) => client can ping to other routers in network
+//setup getwate for client
+sudo route add default gw 10.1.1.1
+//set up iptable NAT
+iptables -t nat -A POSTROUTING -o <externalnetworkinterface> -j MASQUERADE (ping from current client to other clients/routers
+-> clients have same internal IP address => external interface (translae IP of client => router => network) (packages from internal network to external network)
 //network manager: auto configuration => changes in local network -> network manager: auto-config network interfaces
+//iptables: INPUT, OUTPUT, FORWARD 
+//block traffic
+sudo iptables -I INPUT -s (<ipaddress>) -j DROP -p icmp (block IP traffics)
+-A(at the end of the rule chain)
+-I(first)
+DROP: discard
+REJECT: sender is notified that it is blocked
+=> sudo iptables -A INPUT -i <interfacename> (or -o <interfacename>: only this is OK) --icmp-type- 8 -j DROP (8 = echo-request)
+iptables -p icmp -h (-h: help to list all the command types of icmp)
+
+ping 10.1.1.1 (ping yourself)
+	vs
+ping <NATIPFROMROUTER>
+=> Both working 
+-A FORWARDING
+
+INPUT: reject in same segment
+FORWARD: external -> internal & back
+-----------------------------------------------------
+
+SSH server establishment & Connection client to the server
+From router:
+1) sudo service ssh start
+2) netstat -tulpen
+:::22 0.0.0.0:22 ///ssh hdeamon starts
+ps fauxwww | grep ssh: process running in the back/foregrounds
+From client:
+3) ssh student@<ipAddressofHost>
