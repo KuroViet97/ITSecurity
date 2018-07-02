@@ -1,0 +1,5 @@
+sudo service network-manager stop
+sudo if config enpost25 192.168.10.x 
+sudo route add default gw <ip> enp0st25
+
+//network manager: auto configuration => changes in local network -> network manager: auto-config network interfaces
