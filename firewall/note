@@ -1,6 +1,10 @@
 sudo service network-manager stop
 sudo if config enpost25 192.168.10.x 
 sudo route add default gw <ip> enp0st25
+
+NAT= substitute IP address with another
+
+
 route add -net <centernetworkip> netmask 255.255.255.0 <networkinterface> enp0st25
 //set connection btw 2 machine
 ifconfig <interfacethatisnotused> <ip> netmask <netmask>
@@ -9,7 +13,10 @@ sysctl -w net.ipv4.ip_forward=1 (router machine) => client can ping to other rou
 //setup getwate for client
 sudo route add default gw 10.1.1.1
 //set up iptable NAT
-iptables -t nat -A POSTROUTING -o <externalnetworkinterface> -j MASQUERADE (ping from current client to other clients/routers
+iptables -t nat -A POSTROUTING -o <externalnetworkinterface> -j MASQUERADE (ping from current
+
+
+ client to other clients/routers
 -> clients have same internal IP address => external interface (translae IP of client => router => network) (packages from internal network to external network)
 //network manager: auto configuration => changes in local network -> network manager: auto-config network interfaces
 //iptables: INPUT, OUTPUT, FORWARD 
@@ -40,3 +47,32 @@ From router:
 ps fauxwww | grep ssh: process running in the back/foregrounds
 From client:
 3) ssh student@<ipAddressofHost>
+//sudo iptables -L -v
+I-first method (stateless): 
+>sudo iptables -A INPUT -ptcp -dport 22 -j REJECT/DROP -i <externalinterface> (only works for files containing in /etc/services)
+II-second method (stateful): package filtering: conntrack match iptables -m conntrack -h     
+//track connections by states -> important                                     
+SYN ------SYN/ACK ----------- ACK (3-way handshake TCP connection)
+=> look into the state of connection (first SYN)
+>sudo iptables -i <externalinterface> -p tcp --dport ssh -m conntrack --ctstate NEW -A INPUT -j DROP
+>> if already established ssh connection, the command line will work further (won't be blocked after the command line, only happens to new connections, in STATELESS => ALL LOST) ==> need to use ESTABLISHED params
+>sudo iptables -i <externalinterface> -p tcp --dport ssh -m conntrack --ctstate ESTABLISHED -A INPUT -j DROP
+
+***Advantage: Specify connection tracking 
+iptables -P(Policy) REJECT
+Difference DROP/REJECT
+1)DROP:
+
+2)REJECT:
+
+----------------------------------------------
+new setup
+
+sudo ifconfig enp0s25 172.16.2.x netmask 255.255.255.0
+sudo ifconfig enp0s25 192.168.x.1 netmask 255.255.255.0
+sudo route add default gw 172.16.2.(x+1): router
+sudo route add default gw 192.168.10.1: client
+system ctl ip forwrd=1
+------------------------------------------------
+
+
