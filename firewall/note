@@ -74,5 +74,6 @@ sudo route add default gw 172.16.2.(x+1): router
 sudo route add default gw 192.168.10.1: client
 system ctl ip forwrd=1
 ------------------------------------------------
-
+SSH Port Forwarding
+VPN
 
