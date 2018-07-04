@@ -27,7 +27,7 @@ Threats & How to counter in each layer
 
 ip-check.info
 panopticlick.eff.org
-
+mailinator.com
 --------------------------------
 How to achieve Anonymity
 - SSH Port Forwarding / VPN 
@@ -42,3 +42,6 @@ How TOR works:
 + node 2 breaks next layer encryption & know to node 3
 + node 3 decrypts final layer -> send to destination
 ==> Why guarantee anonymity? Client talks to node 1, node 1 talks to client, node 2 only knows node 1,... => server knows only the last node ===> at least 1 node is secure or does not have the log file =====> cannot be traced back (Unless all nodes cooperate, anonymity is ensured)
+
+==> Risk: unencrypted info from last node -> server: sniff traffic -> modify & manupilate
+
