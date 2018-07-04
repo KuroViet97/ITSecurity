@@ -1,7 +1,44 @@
 Anonymity
 - cannot be linked back 
 - apply jobs
-How to achieve anonymity
+How to achieve anonymity:
+- get anonymous card (not registered your name) 
+--> location of the phone can be tracked/ tracked the calling phone number => not effective
 - How to trace example:
 1. Call parents regularly (telephony track)
-2.
+2. wire phones - legal intercept 
+anonymous phones => not switch on more than 1 phone at the same time
+
+------------------------------
+Anonymous connection for PCs
+Threats & How to counter in each layer
+1. Physical layer: find cable/cellphone belongs to (electrical engineer)
+
+2. Datalink layer: MAC address - list of people & list of MAC => can map together => break anonymity. Example: Wifi checking in hotel -> MAC address: map device to a specific person, wifi in coffe shops (Starbucks----->database of mac: can be used to profiled a user)
+
+--MAC address: can check wire/wireless
+--Embedded MAC to IP adress: server uniquely identifies the machine 
+
+3. Network layer: IP address used for routing. User can be easility identified 
+
+4. Transport layer: certificate
+
+5. Application layer: log in to identify = break anonymity | tracked with cookies (third-party cookies) 
+
+ip-check.info
+panopticlick.eff.org
+
+--------------------------------
+How to achieve Anonymity
+- SSH Port Forwarding / VPN 
+- SSH to other server: just shifting problem to another party => info can still be disclosed and identity can be tracked (also applied to VPN)
+
+==> Solution: TOR (not 100%)
+- works with arbitrary TCP protocols (not only browsing) => everyone appears to be the same user
+How TOR works:
+- Initialize circuit consisting of 3 machines 
++ TCP triple-encrupted into 3 layers
++ send data from client -> first tor node cascade -> break encryption -> see the data & know to send to node 2
++ node 2 breaks next layer encryption & know to node 3
++ node 3 decrypts final layer -> send to destination
+==> Why guarantee anonymity? Client talks to node 1, node 1 talks to client, node 2 only knows node 1,... => server knows only the last node ===> at least 1 node is secure or does not have the log file =====> cannot be traced back (Unless all nodes cooperate, anonymity is ensured)
